@@ -1,0 +1,304 @@
+{
+  "name": "HR pdf to text",
+  "nodes": [
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"is_qualified\": true,\n\t\"reason\": \"\"\n}"
+      },
+      "id": "de5ca3ba-ac1d-4970-9bd0-2cb108c64593",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        160,
+        224
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "4dd69ba3-bf07-43b3-86b7-d94b07e9eea6",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.output.is_qualified }}",
+              "rightValue": ""
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b3754427-4f1a-4050-8b47-bf57d2124da6",
+      "name": "Should Proceed To Stage 2?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        304,
+        0
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## 1. Download Candidate Resume\n[Read more about using Google Drive](DOIT être modifié)\n\nDownload a copy of this resume here: DOIT être modifié",
+        "height": 563.6162790697684,
+        "width": 543.5706868577606,
+        "color": 7
+      },
+      "id": "f20a9e07-d29f-4d5a-9e61-f29220d252d6",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1424,
+        -288
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "DOIT être modifié",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "id": "b780f645-776a-47f7-8a84-1e7e2fcd5bb0",
+      "name": "Download Resume",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        -1120,
+        16
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "DOIT être modifié",
+          "name": "DOIT être modifié"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 2. Convert PDF to text\n[Read more about using Stirling PDF](DOIT être modifié)",
+        "height": 595.3148729042731,
+        "width": 605.0267171444024,
+        "color": 7
+      },
+      "id": "46afa24d-71e8-4f09-9486-f47a8897ae03",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -848,
+        -288
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 3. Parse Resume with Multimodal LLM\n[Read more about using Basic LLM Chain](DOIT être modifié)",
+        "height": 715,
+        "width": 748,
+        "color": 7
+      },
+      "id": "2a0d64c6-3279-47d5-acbf-4d4ed023db06",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -208,
+        -288
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "47ec14d0-9c69-4916-9066-6564f5227ee4",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        -112,
+        224
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DOIT être modifié",
+          "name": "DOIT être modifié"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Evaluate the candidate's resume.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Assess the given Candiate Resume for the role of Plumber.\nDetermine if the candidate's skills match the role and if they qualify for an in-person interview."
+            },
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "={{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "a58efaa0-bbd7-4795-a734-15b8f5dce673",
+      "name": "Candidate Resume Analyser",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        -112,
+        0
+      ],
+      "typeVersion": 1.4
+    },
+    {
+      "parameters": {
+        "content": "### Data Privacy Warning!\nFor demo purposes, DOIT être modifié",
+        "height": 419,
+        "width": 274
+      },
+      "id": "be8fa762-38f6-4b18-b5f9-c657741bb5c0",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        -16
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "DOIT être modifié",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "DOIT être modifié"
+            },
+            {
+              "name": "Content-Type",
+              "value": "DOIT être modifié"
+            },
+            {
+              "name": "accept",
+              "value": "DOIT être modifié"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "fileInput",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "outputFormat ",
+              "value": "txt"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "70216779-4876-4d92-8dbb-d1867e9bb50d",
+      "name": "PDF-to-rtl API",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -608,
+        48
+      ],
+      "typeVersion": 4.2,
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": false
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Download Resume": {
+      "main": [
+        [
+          {
+            "node": "PDF-to-rtl API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Candidate Resume Analyser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Candidate Resume Analyser",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Candidate Resume Analyser": {
+      "main": [
+        [
+          {
+            "node": "Should Proceed To Stage 2?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF-to-rtl API": {
+      "main": [
+        [
+          {
+            "node": "Candidate Resume Analyser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "DOIT être modifié",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "DOIT être modifié"
+  },
+  "id": "DOIT être modifié",
+  "tags": []
+}
